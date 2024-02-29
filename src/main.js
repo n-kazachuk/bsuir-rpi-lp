@@ -90,7 +90,27 @@ container.appendChild(statsModal);
 
 // Help Modal
 const helpModal = HelpModal();
+container.appendChild(helpModal);
 
+// Emoji Buttons Container
+const emojiButtonsContainer = document.createElement("div");
+emojiButtonsContainer.setAttribute("id", "emoji-buttons-container");
+gameContainer.appendChild(emojiButtonsContainer);
+
+// Beginner Button
+const beginnerButton = BeginnerButton();
+emojiButtonsContainer.appendChild(beginnerButton);
+
+// Intermediate Button
+const intermediateButton = IntermediateButton();
+emojiButtonsContainer.appendChild(intermediateButton);
+
+// Expert Button
+const expertButton = ExpertButton();
+emojiButtonsContainer.appendChild(expertButton);
+
+// Theme Button
+const themeButton = ThemeButton(mainEmoji, header);
 emojiButtonsContainer.appendChild(themeButton);
 
 // Help Button
@@ -123,4 +143,93 @@ let statsModalOpen = false;
 
 // Utility Function
 
+function toggleStatsModal() {
+  if (statsModalOpen) {
+    // Close stats modal
+    setTimeout(() => {
+      statsModal.style.zIndex = "-1";
+    }, 500);
+    statsModal.style.opacity = "0";
+    statsModalOpen = false;
+    window.localStorage.setItem("modalOpen", "false");
+  } else if (!statsModalOpen) {
+    // Close help modal
+    helpModal.style.opacity = "0";
+    helpModalOpen = false;
+    window.localStorage.setItem("modalOpen", "false");
+    helpButton.style.opacity = "1";
 
+    // Open stats modal
+    statsModal.style.zIndex = "2";
+    statsModal.style.opacity = "1";
+    statsModalOpen = true;
+    window.localStorage.setItem("modalOpen", "true");
+  }
+}
+
+// Stats Button Functionality
+statsButton.addEventListener("click", () => {
+  toggleStatsModal();
+});
+
+// Keyboard Action Handling
+document.addEventListener("keydown", (e) => {
+  if (e.code === "KeyS") {
+    toggleStatsModal();
+  }
+});
+
+/**
+ * Help Modal
+ */
+let helpModalOpen = false;
+
+// Utility Function
+
+function toggleHelpModal() {
+  if (helpModalOpen) {
+    // Close help modal
+    setTimeout(() => {
+      helpModal.style.zIndex = "-1";
+    }, 500);
+    helpModal.style.opacity = "0";
+    helpModalOpen = false;
+    window.localStorage.setItem("modalOpen", "false");
+    helpButton.classList.remove("emoji-button-clicked");
+  } else if (!helpModalOpen) {
+    // Close stats modal
+    if (statsModalOpen) {
+      setTimeout(() => {
+        statsModal.style.zIndex = "-1";
+      }, 500);
+      statsModal.style.opacity = "0";
+      statsModalOpen = false;
+      window.localStorage.setItem("modalOpen", "false");
+    }
+
+    // Open help modal
+    helpModal.style.zIndex = "2";
+    helpModal.style.opacity = "1";
+    helpModalOpen = true;
+    window.localStorage.setItem("modalOpen", "true");
+    helpButton.classList.add("emoji-button-clicked");
+  }
+}
+
+// Help Button Functionality
+helpButton.addEventListener("click", () => {
+  toggleHelpModal();
+});
+
+// Keyboard Action Handling
+document.addEventListener("keydown", (e) => {
+  if (e.code === "KeyH") {
+    toggleHelpModal();
+  }
+});
+
+/**
+ * Menu
+ */
+// const menuContainer = MenuContainer();
+// document.body.appendChild(menuContainer);
